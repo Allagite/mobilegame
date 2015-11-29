@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mobilegame</title>
+    <script src="./enchant.js" ></script>
+
+</head>
+<body style="margin: 0;padding: 0;">
+<script>
+    enchant();
+    window.onload = function () {
+        var game = new Game(320, 320);
+        game.preload('background.jpg','a.wav');
+        game.fps = 24;
+        game.onload = function () {
+            var girl =new enchant.Sprite(50,50);
+            girl.image = game.assets['girl.png'];
+            girl.frame = [6,6,7,7];
+            game.rootScene.addChild(girl);
+            /*game.rootScene.on('touchmove',function(evt){
+                girl.y=evt.localY;
+            });*/
+
+
+        var muban = new enchant.Sprite(50,25);
+        muban.image=game.assets['muban.png']
+             .moveTo(280,50,50);
+             muban.tl.moveBy(0,20,200)
+                     .scaleTo(1,1,10)
+                     .moveBy(0,-200,20)
+                     .scaleTo(1,1,10)
+                     .loop();
+            game.rootScene.addChild(muban);
+        };
+    game.rootScene.on('touchstart',function(evt) {
+        var bullet = new enchant.Sprite(10, 10);
+        bullet.image = game.assets['bullet.png'];
+        bullet.moveTo(girl.x + 8, girl.y + 8)
+                .tl.moveBy(320, 100, 30);
+        bullet.frame = 15;
+        if(bullet.intersect(bullet.muban)){
+            bullet.moveTo(muban.x,muban.y+8 )
+                  .tl.moveBy(-320,-100,-30);
+            game.rootScene.addChild(bullet);
+
+        }
+
+
+    });
+        game.start();}
+
+
+</script>
+</body>
+</html>
